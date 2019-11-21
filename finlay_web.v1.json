@@ -73,6 +73,12 @@
                       "code": -99,
                       "message": "Exception"
                     }
+                  },
+                  "-98: not well-form": {
+                    "value": {
+                      "code": -98,
+                      "message": "Inputs are not well-form"
+                    }
                   }
                 }
               }
@@ -165,7 +171,114 @@
         "summary": "",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "uid": {
+                      "type": "string",
+                      "description": "user_id"
+                    },
+                    "token": {
+                      "type": "string",
+                      "description": "session_id"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                },
+                "examples": {
+                  "1: success": {
+                    "value": {
+                      "code": 1,
+                      "message": "OK",
+                      "uid": "user_id",
+                      "token": "session_id"
+                    }
+                  },
+                  "-10: username is not existed": {
+                    "value": {
+                      "code": -10,
+                      "message": "Username is not existed"
+                    }
+                  },
+                  "-13: blocked user": {
+                    "value": {
+                      "code": -13,
+                      "message": "Blocked user"
+                    }
+                  },
+                  "-99: Exception": {
+                    "value": {
+                      "code": -99,
+                      "message": "Exception"
+                    }
+                  },
+                  "-98: Not well-form": {
+                    "value": {
+                      "code": -10,
+                      "message": "Inputs are not well-form"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "uid": {
+                      "type": "string"
+                    },
+                    "token": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                },
+                "examples": {
+                  "1: success": {
+                    "value": {
+                      "code": 1,
+                      "message": "OK",
+                      "uid": "user_id",
+                      "token": "session_id"
+                    }
+                  },
+                  "example-2": {
+                    "value": {
+                      "code": 1,
+                      "message": "OK"
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -183,10 +296,25 @@
                     "type": "string"
                   },
                   "password": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "MD5 encrypted"
                   },
                   "client_ip": {
                     "type": "string"
+                  }
+                },
+                "required": [
+                  "username",
+                  "password",
+                  "client_ip"
+                ]
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "username": "012340693",
+                    "password": "MD5 encrypted",
+                    "client_ip": "127.0.0.1"
                   }
                 }
               }
@@ -194,7 +322,10 @@
           }
         },
         "operationId": "post_user_login",
-        "description": "User login:\n- username: CMND or CCCD\n- password: MD5 encrypted\n- client_ip:"
+        "description": "User login:\n- username: CMND or CCCD\n- password: MD5 encrypted\n- client_ip:",
+        "tags": [
+          "public"
+        ]
       }
     }
   },
