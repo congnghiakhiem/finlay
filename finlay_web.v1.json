@@ -1,0 +1,82 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "finlay_web",
+    "version": "1.0",
+    "contact": {
+      "name": "Khiem Cong",
+      "email": "congnghiakhiem@gmail.com"
+    },
+    "description": "API for web client"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/web"
+    }
+  ],
+  "paths": {
+    "/user/register": {
+      "post": {
+        "summary": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "description": "Register new user\n- Username: NationID (CMND, CCCD)\n- Password: MD5 enrypted\n- Cellphone number: 84xxxxxxx\n",
+        "operationId": "post_user_register",
+        "security": [
+          {
+            "API Key - 1": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "phone_no": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "username",
+                  "password",
+                  "phone_no"
+                ]
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "username": "012340693",
+                    "password": "MD5 encrypted",
+                    "phone_no": "84902211560"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "API Key - 1": {
+        "name": "API Key",
+        "type": "apiKey",
+        "in": "query"
+      }
+    }
+  }
+}
