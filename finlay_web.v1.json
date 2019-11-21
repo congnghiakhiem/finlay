@@ -20,7 +20,63 @@
         "summary": "",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "uid": {
+                      "type": "string"
+                    },
+                    "token": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                },
+                "examples": {
+                  "1: success": {
+                    "value": {
+                      "code": 1,
+                      "message": "OK",
+                      "uid": "user_id",
+                      "token": "token"
+                    }
+                  },
+                  "-11: username or phone number is existed": {
+                    "value": {
+                      "code": -11,
+                      "message": "Username or Phone number is existed"
+                    }
+                  },
+                  "-12: username is illegal": {
+                    "value": {
+                      "code": -12,
+                      "message": "Username is illegal"
+                    }
+                  },
+                  "-99: exception": {
+                    "value": {
+                      "code": -99,
+                      "message": "Exception"
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -30,7 +86,7 @@
         "operationId": "post_user_register",
         "security": [
           {
-            "API Key - 1": []
+            "apikey1": []
           }
         ],
         "requestBody": {
@@ -40,13 +96,16 @@
                 "type": "object",
                 "properties": {
                   "username": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "NationID (CMND, CCCD)"
                   },
                   "password": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "MD5 encrypted"
                   },
                   "phone_no": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "/((849|843|847|848|845)+([0-9]{8})\\b)/g"
                   }
                 },
                 "required": [
@@ -64,19 +123,89 @@
                   }
                 }
               }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "/user/verify/phone": {
+      "post": {
+        "summary": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "apikey1": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "token"
+          }
+        ]
+      },
+      "parameters": []
+    },
+    "/user/login": {
+      "post": {
+        "summary": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "apikey1": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "client_ip": {
+                    "type": "string"
+                  }
+                }
+              }
             }
           }
-        }
+        },
+        "operationId": "post_user_login",
+        "description": "User login:\n- username: CMND or CCCD\n- password: MD5 encrypted\n- client_ip:"
       }
     }
   },
   "components": {
     "securitySchemes": {
-      "API Key - 1": {
-        "name": "API Key",
+      "apikey1": {
+        "name": "key",
         "type": "apiKey",
         "in": "query"
       }
-    }
+    },
+    "schemas": {}
   }
 }
