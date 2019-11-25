@@ -334,7 +334,7 @@
       "apikey1": {
         "name": "key",
         "type": "apiKey",
-        "in": "query"
+        "in": "header"
       }
     },
     "schemas": {}
